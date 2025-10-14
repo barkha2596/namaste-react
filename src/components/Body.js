@@ -1,14 +1,32 @@
 import resList from "../utils/mockData";
 import RestaurantCard from "./RestaurantCard";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import Shimmer from "./Shimmer";
 
 
 const Body = () => {
 
 
-const[listOfRestaurant, setListOfRestaurant] = useState(resList);
+const[listOfRestaurant, setListOfRestaurant] = useState([]);
 
-  return(
+
+useEffect(()=>{
+  fetchData();
+  console.log("HEllo")
+},[]);
+
+const fetchData = async () => {
+  const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9698196&lng=77.7499721&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+  const json = await data.json();
+  console.log(json);
+  setListOfRestaurant(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+
+}
+
+// if(listOfRestaurant.length===0){
+//   return <Shimmer/>
+// }
+  return listOfRestaurant.length===0? <Shimmer/> :(
     <div className = "body">
       <div className="filter">
         <button className="filter-btn" 
