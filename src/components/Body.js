@@ -1,5 +1,5 @@
 import resList from "../utils/mockData";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import {useEffect, useState} from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -13,6 +13,8 @@ const[listOfRestaurant, setListOfRestaurant] = useState([]);
 const [filteredRestaurant,setFilteredRestaurant] = useState([]);
 const[searchText, setSearchText] = useState([]);
 
+const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
+
 
 useEffect(()=>{
   fetchData();
@@ -20,14 +22,14 @@ useEffect(()=>{
 },[]);
 
 const fetchData = async () => {
-  //const data = await fetch("https://namastedev.com/api/v1/listRestaurants");
-  const data = await fetch("https://foodfire.onrender.com/api/restaurants?lat=21.1702401&lng=72.83106070000001&page_type=DESKTOP_WEB_LISTING")
+  const data = await fetch("https://namastedev.com/api/v1/listRestaurants");
+  //const data = await fetch("https://foodfire.onrender.com/api/restaurants?lat=21.1702401&lng=72.83106070000001&page_type=DESKTOP_WEB_LISTING")
   const json = await data.json();
   console.log(json);
-  setListOfRestaurant(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-  setFilteredRestaurant(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-  // setListOfRestaurant(json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-  // setFilteredRestaurant(json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+  // setListOfRestaurant(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+  // setFilteredRestaurant(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+  setListOfRestaurant(json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+  setFilteredRestaurant(json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
 
 }
 
@@ -81,7 +83,12 @@ if(onlineStatus == false){
           key={restaurant.info.id} 
           to={"/restaurants/" + restaurant.info.id}
           >
-          <RestaurantCard resData = {restaurant}/>
+          {restaurant.info.promoted? (
+            <RestaurantCardPromoted resData = {restaurant}/>
+          ) :(
+              <RestaurantCard resData = {restaurant}/>
+          )}
+          
           </Link>)
           )
         }
