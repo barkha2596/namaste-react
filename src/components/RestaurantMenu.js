@@ -13,13 +13,7 @@ const RestaurantMenu = () => {
 
       const { resId } = useParams();
       console.log(resId);
-      const[showIndex, setShowIndex] = useState(0);
-
-
-//       const handleToggle = (showIndex) => {
-//     // if the same accordion is clicked, close it
-//     setShowIndex(showIndex === showIndex ? null : showIndex);
-//   };               
+      const[showIndex, setShowIndex] = useState(0);            
 
   useEffect(() => {
     //fetchMenu();
@@ -79,7 +73,6 @@ console.log(categories);
                 data={category?.card?.card}
                 showItems={index==showIndex ? true:false}
                 setShowIndex={()=> setShowIndex(index)}
-                //onToggle={handleToggle}
                 />
                 ))}
 

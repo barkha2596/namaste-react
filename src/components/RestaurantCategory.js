@@ -1,18 +1,18 @@
 
-import  { useState } from "react";
+import  { useEffect, useState,  } from "react";
 import ItemList from "./ItemList";
 
-const RestaurantCategory = ({data, showItems, setShowIndex, onToggle}) => {
+const RestaurantCategory = ({data, showItems, setShowIndex}) => {
 
     //  const[showItems, setShowItems] = useState(false);
-    const[showAcc, setShowAcc] = useState(false);
+    const[showAcc, setShowAcc] = useState(true);
     // // console.log(data);
     const handleClick = () =>{
         setShowIndex();
-        //onToggle(setShowIndex)
-       
-       
+       // onToggle(setShowIndex(!))
+       setShowAcc(!showAcc);  
     };
+
     return(
         <div>
             {/* Accordian Header */}    
@@ -23,7 +23,7 @@ const RestaurantCategory = ({data, showItems, setShowIndex, onToggle}) => {
                     <span className="font-bold text-lg">{data.title} ({data.itemCards.length})</span>
                     <span>⬇️</span>
                      </div>
-                    { showItems && <ItemList  items={data.itemCards}/>}
+                    {  showAcc && showItems && <ItemList  items={data.itemCards}/>}
               
                
             </div>
